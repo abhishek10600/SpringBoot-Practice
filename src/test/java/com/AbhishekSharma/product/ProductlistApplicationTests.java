@@ -1,4 +1,4 @@
-package com.AbhishekSharma.productlist;
+package com.AbhishekSharma.product;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -2,12 +2,14 @@ package com.AbhishekSharma.product.service;
 
 import com.AbhishekSharma.product.dto.CategoryDTO;
 import com.AbhishekSharma.product.entity.Category;
+import com.AbhishekSharma.product.exception.CategoryAlreadyExistsException;
 import com.AbhishekSharma.product.mapper.CategoryMapper;
 import com.AbhishekSharma.product.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -18,6 +20,12 @@ public class CategoryServiceImpl implements CategoryService {
     // create category
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+
+        Optional<Category> optionalCategory = categoryRepository.findByName(categoryDTO.getName());
+        if(optionalCategory.isPresent()){
+            throw new CategoryAlreadyExistsException("Category " + categoryDTO.getName() + " already exists!");
+        }
+
         Category category = CategoryMapper.toCategoryEntity(categoryDTO);
 
         category = categoryRepository.save(category);

@@ -3,6 +3,7 @@ package com.AbhishekSharma.product.service;
 import com.AbhishekSharma.product.dto.ProductDTO;
 import com.AbhishekSharma.product.entity.Category;
 import com.AbhishekSharma.product.entity.Product;
+import com.AbhishekSharma.product.exception.CategoryNotFoundException;
 import com.AbhishekSharma.product.mapper.ProductMapper;
 import com.AbhishekSharma.product.repository.CategoryRepository;
 import com.AbhishekSharma.product.repository.ProductRepository;
@@ -23,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
         // check if category exists
         Category category = categoryRepository.findById(productDTO.getCategoryId())
-                .orElseThrow(()-> new RuntimeException("Category Not Found"));
+                .orElseThrow(()-> new CategoryNotFoundException("Category Not Found!"));
 
         // DTO -> entity
         Product product = ProductMapper.toProductEntity(productDTO, category);

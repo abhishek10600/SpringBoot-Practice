@@ -2,13 +2,19 @@ package com.AbhishekSharma.product.controller;
 
 import com.AbhishekSharma.product.dto.ProductDTO;
 import com.AbhishekSharma.product.service.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(
+        name = "Product REST API CRUD Operations",
+        description = "CREATE, READ, UPDATE, and DELETE operations for Product REST API"
+)
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/products")
@@ -24,6 +30,7 @@ public class ProductController {
     }
 
     // createProduct
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @PostMapping("/")
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO){
         ProductDTO createdProduct = productService.createProduct(productDTO);
@@ -38,6 +45,7 @@ public class ProductController {
     }
 
     // updateProduct
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable Long id){
         ProductDTO updatedProduct = productService.updateProduct(productDTO, id);
@@ -45,6 +53,7 @@ public class ProductController {
     }
 
     // delete product
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable Long id){
         return productService.deleteProduct(id);

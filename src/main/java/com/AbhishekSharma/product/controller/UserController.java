@@ -1,6 +1,7 @@
 package com.AbhishekSharma.product.controller;
 
 import com.AbhishekSharma.product.dto.UserDTO;
+import com.AbhishekSharma.product.dto.UserRegisterDTO;
 import com.AbhishekSharma.product.entity.User;
 import com.AbhishekSharma.product.security.JwtUtil;
 import com.AbhishekSharma.product.service.MyUserDetailsService;
@@ -28,8 +29,8 @@ public class UserController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user){
-        return userDetailsService.createUser(user);
+    public User registerUser(@RequestBody UserRegisterDTO userRegisterDTO){
+        return userDetailsService.createUser(userRegisterDTO);
     }
 
     @PostMapping("/login")

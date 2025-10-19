@@ -1,6 +1,9 @@
 package com.AbhishekSharma.product.security;
 
+import com.AbhishekSharma.product.entity.Role;
+import com.AbhishekSharma.product.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,6 +25,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+    @Bean
+    CommandLineRunner initRoles(RoleRepository roleRepository) {
+        return args -> {
+            if (roleRepository.findByName("ROLE_ADMIN").isEmpty()) {
+                Role admin = new Role();
+                admin.setName("ROLE_ADMIN");
+                roleRepository.save(admin);
+            }
+
+            if (roleRepository.findByName("ROLE_SELLER").isEmpty()) {
+                Role seller = new Role();
+                seller.setName("ROLE_SELLER");
+                roleRepository.save(seller);
+            }
+        };
+    }
 
     @Autowired
     private UserDetailsService userDetailsService;
